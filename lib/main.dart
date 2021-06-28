@@ -39,18 +39,22 @@ class _HomeState extends State<Home> {
         child: MarkedImage(
           assetImage: 'assets/ford.jpeg',
           width: MediaQuery.of(context).size.width,
-          debugMode: true,
+          debugMode: false,
           points: [
             PointDetails(
               xPercentage: 0.17,
               yPercentage: 0.62,
-              onTap: () {},
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Front wheel')));
+              },
               title: 'Front wheel',
             ),
             PointDetails(
               xPercentage: 0.54,
               yPercentage: 0.36,
-              onTap: () {},
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Back Window')));
+              },
               title: 'Back Window',
             ),
           ],

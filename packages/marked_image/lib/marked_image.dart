@@ -113,6 +113,18 @@ class _MarkedImageState extends State<MarkedImage> {
                     ),
                   )
                 : SizedBox(),
+            Positioned(
+              left: 20,
+              child: Draggable(
+                child: Icon(Icons.edit),
+                feedback: Icon(
+                  Icons.edit,
+                  color: Colors.yellow,
+                  size: 24,
+                ),
+                data: 0,
+              ),
+            ),
           ],
         ),
       ],
