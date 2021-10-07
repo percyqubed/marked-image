@@ -51,20 +51,18 @@ class _HomeState extends State<Home> {
           debugMode: true,
           points: [
             PointDetails(
-              xPercentage: 0.17,
-              yPercentage: 0.62,
+              points: pointOne,
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Front wheel')));
               },
               title: 'Front wheel',
             ),
             PointDetails(
-              xPercentage: 0.54,
-              yPercentage: 0.36,
+              points: pointTwo,
               onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Back Window')));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Fuel thing')));
               },
-              title: 'Back Window',
+              title: 'Fuel thing',
             ),
           ],
         ),

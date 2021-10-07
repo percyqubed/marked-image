@@ -57,18 +57,28 @@ class _MarkedImageState extends State<MarkedImage> {
   void _populatePoints() async {
     List<Widget> points = [];
     widget.points.forEach((point) {
-      double x = point.xPercentage * _imageWidth;
-      double y = point.yPercentage * _imageHeight;
-      points.add(
-        Positioned(
-          left: x - 12,
-          top: y - 12,
-          child: PointMarker(
-            message: point.title,
-            onTap: point.onTap,
+      point.points.forEach((element) {
+        points.add(
+          Positioned(
+            left: element["x"],
+            top: element["y"],
+            child: GestureDetector(
+              onTap: () {
+                point.onTap();
+              },
+              child: Container(
+                width: 4,
+                height: 4,
+                color: Colors.transparent,
+              ),
+            ),
+            // child: PointMarker(
+            //   message: point.title,
+            //   onTap: point.onTap,
+            // ),
           ),
-        ),
-      );
+        );
+      });
     });
 
     setState(() {
@@ -78,56 +88,58 @@ class _MarkedImageState extends State<MarkedImage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Stack(
-          children: [
-            Image(
-              image: AssetImage(widget.assetImage),
-              height: _imageHeight,
-              width: _imageWidth,
-            ),
-            Container(
-              color: Colors.black.withOpacity(0.5),
-              width: _imageWidth,
-              height: _imageHeight,
-            ),
-            ..._pointsList,
-            widget.debugMode
-                ? Positioned(
-                    top: 0,
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => PointPicker(
-                              imageAsset: widget.assetImage,
-                            ),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        'Pick Point',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  )
-                : SizedBox(),
-            Positioned(
-              left: 20,
-              child: Draggable(
-                child: Icon(Icons.edit),
-                feedback: Icon(
-                  Icons.edit,
-                  color: Colors.yellow,
-                  size: 24,
-                ),
-                data: 0,
+    return InteractiveViewer(
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              Image(
+                image: AssetImage(widget.assetImage),
+                height: _imageHeight,
+                width: _imageWidth,
               ),
-            ),
-          ],
-        ),
-      ],
+              Container(
+                color: Colors.black.withOpacity(0.5),
+                width: _imageWidth,
+                height: _imageHeight,
+              ),
+              ..._pointsList,
+              widget.debugMode
+                  ? Positioned(
+                      top: 0,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => PointPicker(
+                                imageAsset: widget.assetImage,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Pick Point',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    )
+                  : SizedBox(),
+              Positioned(
+                left: 20,
+                child: Draggable(
+                  child: Icon(Icons.edit),
+                  feedback: Icon(
+                    Icons.edit,
+                    color: Colors.yellow,
+                    size: 24,
+                  ),
+                  data: 0,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
