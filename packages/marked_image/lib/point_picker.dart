@@ -1,5 +1,7 @@
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:marked_image/point.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'point_marker.dart';
@@ -35,6 +37,8 @@ class _PointPickerState extends State<PointPicker> {
   double _pointerXRatio = 0;
   double _pointerYRatio = 0;
 
+  List<Point> _points = [];
+
   @override
   void initState() {
     super.initState();
@@ -55,6 +59,7 @@ class _PointPickerState extends State<PointPicker> {
       _pointerYRatio = imageY / _imageHeight;
       _pointerX = imageX;
       _pointerY = imageY;
+      _points.add(Point(x: _pointerX, y: _pointerY));
     });
   }
 
@@ -88,12 +93,30 @@ class _PointPickerState extends State<PointPicker> {
       _originalImageWidth = decodedImage.width.toDouble();
       _imageAspectRatio = _originalImageWidth / _originalImageHeight;
 
-      print('Width: $_originalImageWidth');
-      print('Height: $_originalImageHeight');
-      print('Aspect Ratio: $_imageAspectRatio');
+      // print('Width: $_originalImageWidth');
+      // print('Height: $_originalImageHeight');
+      // print('Aspect Ratio: $_imageAspectRatio');
       _imageHeight = _imageWidth / _imageAspectRatio;
       _image = image;
     });
+  }
+
+  List<Widget> _generatePoints() {
+    var list = <Widget>[];
+    _points.forEach((element) {
+      list.add(
+        Positioned(
+          left: element.x,
+          top: element.y,
+          child: Container(
+            color: Colors.yellow,
+            width: 4,
+            height: 4,
+          ),
+        ),
+      );
+    });
+    return list;
   }
 
   @override
@@ -103,6 +126,30 @@ class _PointPickerState extends State<PointPicker> {
         title: Text('Point Picker'),
         elevation: 0,
         backgroundColor: Colors.black,
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                _points.removeLast();
+              });
+            },
+            icon: Icon(Icons.undo),
+          ),
+          IconButton(
+            onPressed: () {
+              // setState(() {
+              //   _points.removeLast();
+              // });
+            },
+            icon: Icon(Icons.redo),
+          ),
+          IconButton(
+            onPressed: () {
+              log(_points.toString());
+            },
+            icon: Icon(Icons.info),
+          ),
+        ],
       ),
       body: Container(
         color: Colors.black,
@@ -112,6 +159,7 @@ class _PointPickerState extends State<PointPicker> {
                   children: [
                     WidgetInfomation(
                       onChange: (data) {
+                        inspect(data);
                         Offset position = data[WidgetInfo.position];
                         setState(() {
                           _imagePositionX = position.dx;
@@ -134,14 +182,23 @@ class _PointPickerState extends State<PointPicker> {
                         height: _imageHeight,
                       ),
                     ),
+                    // Positioned(
+                    //   left: _pointerX,
+                    //   top: _pointerY,
+                    //   child: Container(
+                    //     color: Colors.yellow,
+                    //     width: 4,
+                    //     height: 4,
+                    //   ),
+                    // ),
+                    ..._generatePoints(),
                     Positioned(
-                      left: _pointerX - 12,
-                      top: _pointerY - 12,
-                      child: PointMarker(
-                        message: 'X: ${_pointerXRatio.toStringAsFixed(2)}, Y: ${_pointerYRatio.toStringAsFixed(2)}',
-                        onTap: () {
-                          print('X: ${_pointerXRatio.toStringAsFixed(2)}, Y: ${_pointerYRatio.toStringAsFixed(2)}');
-                        },
+                      left: 266,
+                      top: 48,
+                      child: Container(
+                        color: Colors.red,
+                        width: 10,
+                        height: 10,
                       ),
                     ),
                   ],

@@ -24,7 +24,7 @@ class _PointMarkerState extends State<PointMarker> {
         },
         builder: (context, candidates, rejects) {
           return Opacity(
-            opacity: candidates.isNotEmpty ? 1 : 0,
+            opacity: 1,
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () => _onTap(key),

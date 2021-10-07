@@ -1,3 +1,4 @@
+import 'package:carimage/points.dart';
 import 'package:flutter/material.dart';
 import 'package:marked_image/marked_image.dart';
 
@@ -28,6 +29,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    // pointOne.forEach((element) {
+    //   print(element["x"]);
+    // });
+    super.initState();
+  }
+
   String frontImage = "assets/front.jpeg";
   @override
   Widget build(BuildContext context) {
@@ -39,7 +48,7 @@ class _HomeState extends State<Home> {
         child: MarkedImage(
           assetImage: 'assets/ford.jpeg',
           width: MediaQuery.of(context).size.width,
-          debugMode: false,
+          debugMode: true,
           points: [
             PointDetails(
               xPercentage: 0.17,
